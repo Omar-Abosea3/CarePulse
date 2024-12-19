@@ -18,6 +18,7 @@ import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
+import toast from "react-hot-toast";
 
 
 export enum FormFieldTyps {
@@ -48,7 +49,11 @@ const PatientForm = () => {
         try {
             const userData = {name , email , phone};
             const newUser = await createUser(userData);
-            if(newUser) router.push(`/patients/${newUser.$id}/register`);
+            if(newUser) {
+              router.push(`/patients/${newUser.$id}/register`)
+            }else{
+              toast.error('the phone number or email is already in use');
+            };
             setisLoading(false);
         } catch (error) {
             setisLoading(false);

@@ -19,6 +19,7 @@ import { Label } from "../ui/label";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import FileUploader from "../FileUploader";
+import toast from "react-hot-toast";
 
 
 
@@ -55,12 +56,15 @@ const RegisterForm = ({user}:{user:User}) => {
             }
             //@ts-ignore
             const patient = await registerPatient(patientData);
-            if(patient) router.push(`/patients/${user.$id}/new-appointment`)
+            if(patient) {
+              router.push(`/patients/${user.$id}/new-appointment`)
+            }else{
+              toast.error('fill all form data');
+            }
             setisLoading(false);
         } catch (error) {
             setisLoading(false);
             console.log(error);
-            
         }
       }
       return (
